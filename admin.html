@@ -7,212 +7,144 @@
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { font-family: -apple-system, BlinkMacSystemFont, 'Inter', sans-serif; background: #0f0f0f; color: #fff; min-height: 100vh; }
-
-  /* LOGIN */
   #login-screen { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; padding: 24px; }
-  .login-logo { width: 80px; height: 80px; border-radius: 50%; object-fit: cover; margin-bottom: 20px; border: 3px solid #dc2626; }
+  .login-logo { width: 80px; height: 80px; border-radius: 50%; background: #dc2626; display: flex; align-items: center; justify-content: center; font-size: 36px; font-weight: 900; font-family: serif; color: #fff; margin-bottom: 20px; }
   .login-title { font-size: 22px; font-weight: 700; margin-bottom: 6px; }
   .login-sub { color: #64748b; font-size: 14px; margin-bottom: 32px; }
   .login-box { background: #1a1a1a; border: 1px solid #2a2a2a; border-radius: 16px; padding: 28px; width: 100%; max-width: 360px; }
   .login-box label { font-size: 13px; color: #94a3b8; display: block; margin-bottom: 8px; }
-  .login-box input { width: 100%; background: #0f0f0f; border: 1px solid #333; border-radius: 10px; padding: 14px 16px; color: #fff; font-size: 16px; outline: none; transition: border 0.2s; }
+  .login-box input { width: 100%; background: #0f0f0f; border: 1px solid #333; border-radius: 10px; padding: 14px 16px; color: #fff; font-size: 16px; outline: none; }
   .login-box input:focus { border-color: #dc2626; }
-  .btn-login { width: 100%; background: #dc2626; color: #fff; border: none; border-radius: 10px; padding: 14px; font-size: 16px; font-weight: 700; cursor: pointer; margin-top: 16px; transition: background 0.2s; }
-  .btn-login:hover { background: #b91c1c; }
+  .btn-red { width: 100%; background: #dc2626; color: #fff; border: none; border-radius: 10px; padding: 14px; font-size: 16px; font-weight: 700; cursor: pointer; margin-top: 16px; }
+  .btn-red:hover { background: #b91c1c; }
   .login-error { color: #ef4444; font-size: 13px; text-align: center; margin-top: 12px; display: none; }
-
-  /* ADMIN LAYOUT */
   #admin-screen { display: none; }
   .admin-header { background: #1a1a1a; border-bottom: 1px solid #2a2a2a; padding: 16px 20px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; }
-  .admin-brand { display: flex; align-items: center; gap: 10px; }
-  .admin-brand img { width: 36px; height: 36px; border-radius: 50%; object-fit: cover; }
-  .admin-brand span { font-weight: 700; font-size: 16px; }
+  .admin-brand { font-weight: 700; font-size: 16px; color: #dc2626; }
   .btn-logout { background: none; border: 1px solid #333; color: #94a3b8; padding: 8px 14px; border-radius: 8px; font-size: 13px; cursor: pointer; }
-  .btn-logout:hover { border-color: #dc2626; color: #dc2626; }
-
-  .admin-body { padding: 20px; max-width: 680px; margin: 0 auto; }
-
-  /* ADD POST CARD */
-  .add-card { background: #1a1a1a; border: 1px solid #2a2a2a; border-radius: 16px; padding: 20px; margin-bottom: 24px; }
-  .add-card h2 { font-size: 16px; font-weight: 700; margin-bottom: 16px; color: #fff; }
-
+  .admin-body { padding: 20px; max-width: 600px; margin: 0 auto; }
+  .card { background: #1a1a1a; border: 1px solid #2a2a2a; border-radius: 16px; padding: 20px; margin-bottom: 24px; }
+  .card h2 { font-size: 16px; font-weight: 700; margin-bottom: 16px; }
   .tabs { display: flex; gap: 8px; margin-bottom: 16px; }
-  .tab { flex: 1; padding: 10px; border: 1px solid #333; background: none; color: #94a3b8; border-radius: 8px; font-size: 14px; cursor: pointer; transition: all 0.2s; }
+  .tab { flex: 1; padding: 10px; border: 1px solid #333; background: none; color: #94a3b8; border-radius: 8px; font-size: 14px; cursor: pointer; }
   .tab.active { background: #dc2626; border-color: #dc2626; color: #fff; font-weight: 600; }
-
-  .upload-area { border: 2px dashed #333; border-radius: 12px; padding: 32px 20px; text-align: center; cursor: pointer; transition: border 0.2s; position: relative; }
-  .upload-area:hover { border-color: #dc2626; }
-  .upload-area input[type=file] { position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; }
+  .upload-area { border: 2px dashed #333; border-radius: 12px; padding: 32px 20px; text-align: center; cursor: pointer; position: relative; }
+  .upload-area input[type=file] { position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%; }
   .upload-icon { font-size: 36px; margin-bottom: 8px; }
   .upload-text { color: #64748b; font-size: 14px; }
-  .upload-text strong { color: #dc2626; }
-
   #photo-preview { display: none; margin-top: 12px; }
   #photo-preview img { width: 100%; max-height: 250px; object-fit: cover; border-radius: 10px; }
-
-  .video-input-wrap { display: none; }
-  .video-input-wrap label { font-size: 13px; color: #94a3b8; display: block; margin-bottom: 8px; }
-  .video-input-wrap input { width: 100%; background: #0f0f0f; border: 1px solid #333; border-radius: 10px; padding: 12px 14px; color: #fff; font-size: 15px; outline: none; transition: border 0.2s; }
-  .video-input-wrap input:focus { border-color: #dc2626; }
-  .video-hint { font-size: 12px; color: #475569; margin-top: 6px; }
-
-  .caption-wrap { margin-top: 14px; }
-  .caption-wrap label { font-size: 13px; color: #94a3b8; display: block; margin-bottom: 8px; }
-  .caption-wrap textarea { width: 100%; background: #0f0f0f; border: 1px solid #333; border-radius: 10px; padding: 12px 14px; color: #fff; font-size: 15px; outline: none; resize: none; height: 80px; transition: border 0.2s; }
-  .caption-wrap textarea:focus { border-color: #dc2626; }
-
-  .platform-wrap { margin-top: 14px; }
-  .platform-wrap label { font-size: 13px; color: #94a3b8; display: block; margin-bottom: 8px; }
-  .platform-btns { display: flex; gap: 8px; flex-wrap: wrap; }
-  .platform-btn { padding: 8px 14px; border: 1px solid #333; background: none; color: #94a3b8; border-radius: 8px; font-size: 13px; cursor: pointer; transition: all 0.2s; }
-  .platform-btn.selected { border-color: #dc2626; color: #dc2626; background: rgba(220,38,38,0.1); }
-
-  .btn-post { width: 100%; background: #dc2626; color: #fff; border: none; border-radius: 10px; padding: 14px; font-size: 16px; font-weight: 700; cursor: pointer; margin-top: 16px; transition: background 0.2s; }
-  .btn-post:hover { background: #b91c1c; }
-  .btn-post:disabled { background: #333; color: #555; cursor: not-allowed; }
-
-  .post-status { text-align: center; font-size: 13px; margin-top: 10px; min-height: 20px; }
-  .post-status.success { color: #22c55e; }
-  .post-status.error { color: #ef4444; }
-
-  /* POSTS GRID */
+  .video-wrap { display: none; }
+  .field { margin-top: 14px; }
+  .field label { font-size: 13px; color: #94a3b8; display: block; margin-bottom: 8px; }
+  .field input, .field textarea { width: 100%; background: #0f0f0f; border: 1px solid #333; border-radius: 10px; padding: 12px 14px; color: #fff; font-size: 15px; outline: none; }
+  .field input:focus, .field textarea:focus { border-color: #dc2626; }
+  .field textarea { resize: none; height: 80px; }
+  .platform-btns { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 8px; }
+  .pbtn { padding: 8px 14px; border: 1px solid #333; background: none; color: #94a3b8; border-radius: 8px; font-size: 13px; cursor: pointer; }
+  .pbtn.selected { border-color: #dc2626; color: #dc2626; background: rgba(220,38,38,0.1); }
+  .status { text-align: center; font-size: 13px; margin-top: 10px; min-height: 20px; }
+  .status.ok { color: #22c55e; }
+  .status.err { color: #ef4444; }
   .posts-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
   .posts-header h2 { font-size: 16px; font-weight: 700; }
   .posts-count { font-size: 13px; color: #64748b; }
-
   .posts-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
-  @media (min-width: 500px) { .posts-grid { grid-template-columns: repeat(3, 1fr); } }
-
+  @media(min-width:500px){.posts-grid{grid-template-columns:repeat(3,1fr);}}
   .post-card { background: #1a1a1a; border: 1px solid #2a2a2a; border-radius: 12px; overflow: hidden; position: relative; }
   .post-thumb { width: 100%; aspect-ratio: 1; object-fit: cover; display: block; }
-  .post-video-thumb { width: 100%; aspect-ratio: 1; background: #0f0f0f; display: flex; align-items: center; justify-content: center; font-size: 32px; }
+  .post-video-thumb { width: 100%; aspect-ratio: 1; background: #111; display: flex; align-items: center; justify-content: center; font-size: 40px; }
   .post-info { padding: 10px; }
   .post-caption { font-size: 12px; color: #cbd5e1; line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
-  .post-platform { font-size: 10px; color: #475569; margin-top: 4px; text-transform: uppercase; letter-spacing: 1px; }
-  .post-delete { position: absolute; top: 6px; right: 6px; background: rgba(0,0,0,0.7); border: none; color: #ef4444; width: 26px; height: 26px; border-radius: 50%; font-size: 14px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
-
-  .empty-state { text-align: center; padding: 40px 20px; color: #475569; }
-  .empty-state .empty-icon { font-size: 40px; margin-bottom: 12px; }
-  .empty-state p { font-size: 14px; }
-
-  .loading { text-align: center; padding: 40px; color: #475569; }
-
-  /* EMBED CODE */
-  .embed-card { background: #1a1a1a; border: 1px solid #2a2a2a; border-radius: 16px; padding: 20px; margin-top: 24px; }
-  .embed-card h2 { font-size: 16px; font-weight: 700; margin-bottom: 8px; }
-  .embed-card p { font-size: 13px; color: #64748b; margin-bottom: 12px; }
-  .embed-code { background: #0f0f0f; border: 1px solid #333; border-radius: 8px; padding: 12px; font-family: monospace; font-size: 12px; color: #94a3b8; word-break: break-all; }
-  .btn-copy { background: #333; border: none; color: #fff; padding: 8px 16px; border-radius: 8px; font-size: 13px; cursor: pointer; margin-top: 10px; }
-  .btn-copy:hover { background: #dc2626; }
+  .post-meta { font-size: 10px; color: #475569; margin-top: 4px; }
+  .post-delete { position: absolute; top: 6px; right: 6px; background: rgba(0,0,0,0.75); border: none; color: #ef4444; width: 26px; height: 26px; border-radius: 50%; font-size: 16px; cursor: pointer; line-height: 1; }
+  .empty { text-align: center; padding: 40px; color: #475569; }
 </style>
 </head>
 <body>
 
-<!-- LOGIN -->
 <div id="login-screen">
-  <img class="login-logo" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='50' fill='%23dc2626'/><text x='50' y='67' text-anchor='middle' font-size='50' font-family='serif' fill='white'>W</text></svg>" alt="Wemo">
+  <div class="login-logo">W</div>
   <div class="login-title">Wemo Curtains</div>
   <div class="login-sub">Admin Panel — Posts Manager</div>
   <div class="login-box">
     <label>Password</label>
-    <input type="password" id="password-input" placeholder="Enter your password" onkeydown="if(event.key==='Enter')login()">
-    <button class="btn-login" onclick="login()">Sign In →</button>
+    <input type="password" id="pw" placeholder="Enter your password" onkeydown="if(event.key==='Enter')login()">
+    <button class="btn-red" onclick="login()">Sign In →</button>
     <div class="login-error" id="login-error">Wrong password. Try again.</div>
   </div>
 </div>
 
-<!-- ADMIN -->
 <div id="admin-screen">
   <div class="admin-header">
-    <div class="admin-brand">
-      <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='50' fill='%23dc2626'/><text x='50' y='67' text-anchor='middle' font-size='50' font-family='serif' fill='white'>W</text></svg>" alt="Wemo">
-      <span>Posts Manager</span>
-    </div>
+    <div class="admin-brand">Wemo Posts Manager</div>
     <button class="btn-logout" onclick="logout()">Sign out</button>
   </div>
-
   <div class="admin-body">
 
-    <!-- ADD POST -->
-    <div class="add-card">
+    <div class="card">
       <h2>➕ Add New Post</h2>
-
       <div class="tabs">
-        <button class="tab active" onclick="switchTab('photo')">📷 Photo</button>
-        <button class="tab" onclick="switchTab('video')">🎬 Video</button>
+        <button class="tab active" onclick="switchTab('photo',this)">📷 Photo</button>
+        <button class="tab" onclick="switchTab('video',this)">🎬 Video</button>
       </div>
 
-      <!-- Photo upload -->
       <div id="photo-tab">
         <div class="upload-area">
           <input type="file" id="photo-file" accept="image/*" onchange="previewPhoto(this)">
           <div class="upload-icon">📸</div>
-          <div class="upload-text">Tap to choose a photo<br><strong>from your phone or laptop</strong></div>
+          <div class="upload-text">Tap to choose a photo</div>
         </div>
-        <div id="photo-preview">
-          <img id="preview-img" src="" alt="Preview">
+        <div id="photo-preview"><img id="preview-img" src="" alt="Preview"></div>
+      </div>
+
+      <div class="video-wrap" id="video-tab">
+        <div class="field">
+          <label>Paste video link (TikTok, YouTube, Instagram, Facebook)</label>
+          <input type="url" id="video-url" placeholder="https://...">
         </div>
       </div>
 
-      <!-- Video link -->
-      <div class="video-input-wrap" id="video-tab">
-        <label>Paste video link</label>
-        <input type="url" id="video-url" placeholder="https://www.tiktok.com/... or YouTube link">
-        <div class="video-hint">Supports TikTok, YouTube, Instagram Reels, Facebook videos</div>
-      </div>
-
-      <!-- Caption -->
-      <div class="caption-wrap">
+      <div class="field">
         <label>Caption</label>
-        <textarea id="caption-input" placeholder="Write something about this post..."></textarea>
+        <textarea id="caption" placeholder="Write something about this post..."></textarea>
       </div>
 
-      <!-- Platform tag -->
-      <div class="platform-wrap">
+      <div class="field">
         <label>Platform (optional)</label>
         <div class="platform-btns">
-          <button class="platform-btn" onclick="selectPlatform(this,'Instagram')">Instagram</button>
-          <button class="platform-btn" onclick="selectPlatform(this,'Facebook')">Facebook</button>
-          <button class="platform-btn" onclick="selectPlatform(this,'TikTok')">TikTok</button>
-          <button class="platform-btn" onclick="selectPlatform(this,'')">None</button>
+          <button class="pbtn" onclick="selPlatform(this,'Instagram')">Instagram</button>
+          <button class="pbtn" onclick="selPlatform(this,'Facebook')">Facebook</button>
+          <button class="pbtn" onclick="selPlatform(this,'TikTok')">TikTok</button>
+          <button class="pbtn" onclick="selPlatform(this,'')">None</button>
         </div>
       </div>
 
-      <button class="btn-post" id="post-btn" onclick="addPost()">Publish Post</button>
-      <div class="post-status" id="post-status"></div>
+      <button class="btn-red" id="post-btn" onclick="addPost()" style="margin-top:16px;">Publish Post</button>
+      <div class="status" id="status"></div>
     </div>
 
-    <!-- POSTS -->
     <div class="posts-header">
       <h2>Your Posts</h2>
-      <span class="posts-count" id="posts-count">Loading...</span>
+      <span class="posts-count" id="posts-count"></span>
     </div>
-    <div id="posts-container"><div class="loading">Loading posts...</div></div>
-
-    <!-- EMBED -->
-    <div class="embed-card">
-      <h2>🔗 Add to Your Website</h2>
-      <p>Paste this code into your website where you want the posts feed to appear.</p>
-      <div class="embed-code" id="embed-code">Loading embed code...</div>
-      <button class="btn-copy" onclick="copyEmbed()">Copy Code</button>
-    </div>
+    <div id="posts-container"><div class="empty">No posts yet.</div></div>
 
   </div>
 </div>
 
 <script>
 const PASSWORD = 'wemo2024';
+const STORAGE_KEY = 'wemo_posts_v1';
 let currentTab = 'photo';
 let selectedPlatform = '';
 let photoData = null;
 
-// ── AUTH ──────────────────────────────────────
 function login() {
-  const pw = document.getElementById('password-input').value;
-  if (pw === PASSWORD) {
+  if (document.getElementById('pw').value === PASSWORD) {
     document.getElementById('login-screen').style.display = 'none';
     document.getElementById('admin-screen').style.display = 'block';
-    loadPosts();
+    renderPosts();
   } else {
     document.getElementById('login-error').style.display = 'block';
   }
@@ -221,171 +153,135 @@ function login() {
 function logout() {
   document.getElementById('admin-screen').style.display = 'none';
   document.getElementById('login-screen').style.display = 'flex';
-  document.getElementById('password-input').value = '';
+  document.getElementById('pw').value = '';
 }
 
-// ── TABS ──────────────────────────────────────
-function switchTab(tab) {
+function switchTab(tab, btn) {
   currentTab = tab;
   document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-  event.target.classList.add('active');
+  btn.classList.add('active');
   document.getElementById('photo-tab').style.display = tab === 'photo' ? 'block' : 'none';
   document.getElementById('video-tab').style.display = tab === 'video' ? 'block' : 'none';
   photoData = null;
   document.getElementById('photo-preview').style.display = 'none';
 }
 
-function selectPlatform(btn, platform) {
-  document.querySelectorAll('.platform-btn').forEach(b => b.classList.remove('selected'));
+function selPlatform(btn, p) {
+  document.querySelectorAll('.pbtn').forEach(b => b.classList.remove('selected'));
   btn.classList.add('selected');
-  selectedPlatform = platform;
+  selectedPlatform = p;
 }
 
-// ── PHOTO PREVIEW ─────────────────────────────
 function previewPhoto(input) {
   const file = input.files[0];
   if (!file) return;
+  // Compress image before storing
   const reader = new FileReader();
   reader.onload = e => {
-    photoData = e.target.result;
-    document.getElementById('preview-img').src = photoData;
-    document.getElementById('photo-preview').style.display = 'block';
+    const img = new Image();
+    img.onload = () => {
+      const canvas = document.createElement('canvas');
+      const MAX = 800;
+      let w = img.width, h = img.height;
+      if (w > MAX) { h = h * MAX / w; w = MAX; }
+      if (h > MAX) { w = w * MAX / h; h = MAX; }
+      canvas.width = w; canvas.height = h;
+      canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+      photoData = canvas.toDataURL('image/jpeg', 0.7);
+      document.getElementById('preview-img').src = photoData;
+      document.getElementById('photo-preview').style.display = 'block';
+    };
+    img.src = e.target.result;
   };
   reader.readAsDataURL(file);
 }
 
-// ── STORAGE ───────────────────────────────────
-async function getPosts() {
+function getPosts() {
   try {
-    const result = await window.storage.get('wemo-posts');
-    return result ? JSON.parse(result.value) : [];
+    return JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
   } catch { return []; }
 }
 
-async function savePosts(posts) {
-  await window.storage.set('wemo-posts', JSON.stringify(posts));
+function savePosts(posts) {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(posts));
 }
 
-// ── ADD POST ──────────────────────────────────
-async function addPost() {
-  const caption = document.getElementById('caption-input').value.trim();
-  const videoUrl = document.getElementById('video-url').value.trim();
+function addPost() {
+  const caption = document.getElementById('caption').value.trim();
+  const videoUrl = document.getElementById('video-url') ? document.getElementById('video-url').value.trim() : '';
   const btn = document.getElementById('post-btn');
-  const status = document.getElementById('post-status');
+  const status = document.getElementById('status');
 
   if (currentTab === 'photo' && !photoData) {
-    status.className = 'post-status error';
-    status.textContent = 'Please choose a photo first.';
-    return;
+    status.className = 'status err'; status.textContent = 'Please choose a photo first.'; return;
   }
   if (currentTab === 'video' && !videoUrl) {
-    status.className = 'post-status error';
-    status.textContent = 'Please paste a video link.';
-    return;
+    status.className = 'status err'; status.textContent = 'Please paste a video link.'; return;
   }
 
-  btn.disabled = true;
-  btn.textContent = 'Publishing...';
-  status.textContent = '';
+  btn.disabled = true; btn.textContent = 'Publishing...';
 
   try {
-    const posts = await getPosts();
+    const posts = getPosts();
     const post = {
       id: Date.now(),
       type: currentTab,
       caption,
       platform: selectedPlatform,
-      date: new Date().toLocaleDateString('en-KE', { day:'numeric', month:'short', year:'numeric' }),
+      date: new Date().toLocaleDateString('en-KE', {day:'numeric',month:'short',year:'numeric'})
     };
     if (currentTab === 'photo') post.image = photoData;
     if (currentTab === 'video') post.videoUrl = videoUrl;
-
     posts.unshift(post);
-    await savePosts(posts);
-
-    status.className = 'post-status success';
-    status.textContent = '✅ Post published!';
-    document.getElementById('caption-input').value = '';
-    document.getElementById('video-url').value = '';
+    savePosts(posts);
+    status.className = 'status ok'; status.textContent = '✅ Post published!';
+    document.getElementById('caption').value = '';
+    if (document.getElementById('video-url')) document.getElementById('video-url').value = '';
     document.getElementById('photo-preview').style.display = 'none';
     photoData = null;
-    document.querySelectorAll('.platform-btn').forEach(b => b.classList.remove('selected'));
+    document.querySelectorAll('.pbtn').forEach(b => b.classList.remove('selected'));
     selectedPlatform = '';
-    renderPosts(posts);
+    renderPosts();
   } catch(e) {
-    status.className = 'post-status error';
-    status.textContent = 'Error saving. Try again.';
+    status.className = 'status err'; status.textContent = 'Error: ' + e.message;
   }
-
-  btn.disabled = false;
-  btn.textContent = 'Publish Post';
+  btn.disabled = false; btn.textContent = 'Publish Post';
 }
 
-// ── DELETE POST ───────────────────────────────
-async function deletePost(id) {
+function deletePost(id) {
   if (!confirm('Delete this post?')) return;
-  const posts = await getPosts();
-  const updated = posts.filter(p => p.id !== id);
-  await savePosts(updated);
-  renderPosts(updated);
+  savePosts(getPosts().filter(p => p.id !== id));
+  renderPosts();
 }
 
-// ── RENDER POSTS ──────────────────────────────
-function getVideoThumb(url) {
-  if (url.includes('youtube') || url.includes('youtu.be')) return '▶️';
+function getVideoEmoji(url) {
+  if (!url) return '🎬';
   if (url.includes('tiktok')) return '🎵';
+  if (url.includes('youtube') || url.includes('youtu.be')) return '▶️';
   if (url.includes('instagram')) return '📸';
   if (url.includes('facebook') || url.includes('fb.')) return '👍';
   return '🎬';
 }
 
-function renderPosts(posts) {
+function renderPosts() {
+  const posts = getPosts();
+  document.getElementById('posts-count').textContent = posts.length + ' post' + (posts.length !== 1 ? 's' : '');
   const container = document.getElementById('posts-container');
-  document.getElementById('posts-count').textContent = `${posts.length} post${posts.length !== 1 ? 's' : ''}`;
-
   if (posts.length === 0) {
-    container.innerHTML = `<div class="empty-state"><div class="empty-icon">📭</div><p>No posts yet. Add your first one above!</p></div>`;
+    container.innerHTML = '<div class="empty">No posts yet. Add your first one above!</div>';
     return;
   }
-
-  container.innerHTML = `<div class="posts-grid">${posts.map(p => `
+  container.innerHTML = '<div class="posts-grid">' + posts.map(p => `
     <div class="post-card">
       <button class="post-delete" onclick="deletePost(${p.id})">×</button>
       ${p.type === 'photo'
-        ? `<img class="post-thumb" src="${p.image}" alt="${p.caption}">`
-        : `<div class="post-video-thumb">${getVideoThumb(p.videoUrl)}</div>`}
+        ? `<img class="post-thumb" src="${p.image}" alt="">`
+        : `<div class="post-video-thumb">${getVideoEmoji(p.videoUrl)}</div>`}
       <div class="post-info">
         <div class="post-caption">${p.caption || '(no caption)'}</div>
-        <div class="post-platform">${p.platform ? p.platform + ' · ' : ''}${p.date}</div>
+        <div class="post-meta">${p.platform ? p.platform + ' · ' : ''}${p.date}</div>
       </div>
-    </div>`).join('')}
-  </div>`;
-}
-
-// ── LOAD POSTS ────────────────────────────────
-async function loadPosts() {
-  const posts = await getPosts();
-  renderPosts(posts);
-  updateEmbedCode();
-}
-
-// ── EMBED CODE ────────────────────────────────
-function updateEmbedCode() {
-  const code = `<div id="wemo-feed"></div>
-<script>
-fetch('https://claude.ai') // replace with your storage endpoint
-  .then(r=>r.json()).then(posts=>{
-    document.getElementById('wemo-feed').innerHTML =
-      posts.map(p=>\`<div><img src="\${p.image}"><p>\${p.caption}</p></div>\`).join('');
-  });
-<\/script>`;
-  document.getElementById('embed-code').textContent = code;
-}
-
-function copyEmbed() {
-  navigator.clipboard.writeText(document.getElementById('embed-code').textContent);
-  event.target.textContent = '✅ Copied!';
-  setTimeout(() => event.target.textContent = 'Copy Code', 2000);
+    </div>`).join('') + '</div>';
 }
 </script>
 </body>
